@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController
 class BucketTestController(
     private val bucketService: BucketService,
 ) {
-
     @GetMapping("/bucket-test")
     fun test(
         rateLimiterType: RateLimiterType,
