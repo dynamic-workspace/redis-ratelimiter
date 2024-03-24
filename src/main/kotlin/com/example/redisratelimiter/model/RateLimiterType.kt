@@ -6,12 +6,12 @@ enum class RateLimiterType(
     val limit: Long,
     val duration: Duration,
 ) {
-    KIS(
-        limit = 50,
+    TEST1(
+        limit = 5,
         duration = Duration.ofMinutes(10),
     ),
 
-    MERITZ(
+    MZS(
         limit = 80,
         duration = Duration.ofSeconds(1),
     ),

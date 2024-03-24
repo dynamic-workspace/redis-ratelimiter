@@ -3,6 +3,7 @@ package com.example.redisratelimiter.configuration
 import io.github.bucket4j.distributed.ExpirationAfterWriteStrategy
 import io.github.bucket4j.redis.lettuce.cas.LettuceBasedProxyManager
 import io.lettuce.core.AbstractRedisClient
+import io.lettuce.core.RedisClient
 import io.lettuce.core.cluster.RedisClusterClient
 import java.time.Duration
 import org.springframework.context.annotation.Bean
@@ -30,7 +31,7 @@ class BucketConfiguration(
     private fun initBuilder(client: AbstractRedisClient): LettuceBasedProxyManager.LettuceBasedProxyManagerBuilder<ByteArray> =
         when (client) {
             is RedisClusterClient -> LettuceBasedProxyManager.builderFor(client)
+            is RedisClient -> LettuceBasedProxyManager.builderFor(client)
             else -> throw IllegalStateException("지원하지 않는 Redis 클라이언트 타입입니다: ${client::class.java.name}")
         }
-
 }

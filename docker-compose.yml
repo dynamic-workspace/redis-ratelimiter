@@ -1,0 +1,62 @@
+version: '3'
+services:
+  redis-node1:
+    container_name: redis-node1
+    image: redis
+    volumes:
+      - ./redis-conf/conf1:/usr/local/etc/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+      - 6380:6380
+      - 6381:6381
+      - 6382:6382
+      - 6383:6383
+      - 6384:6384
+  redis-node2:
+    network_mode: "service:redis-node1"
+    container_name: redis-node2
+    image: redis
+    volumes:
+      - ./redis-conf/conf2:/usr/local/etc/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+  redis-node3:
+    network_mode: "service:redis-node1"
+    container_name: redis-node3
+    image: redis
+    volumes:
+      - ./redis-conf/conf3:/usr/local/etc/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+  redis-node4:
+    network_mode: "service:redis-node1"
+    container_name: redis-node4
+    image: redis
+    volumes:
+      - ./redis-conf/conf4:/usr/local/etc/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+  redis-node5:
+    network_mode: "service:redis-node1"
+    container_name: redis-node5
+    image: redis
+    volumes:
+      - ./redis-conf/conf5:/usr/local/etc/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+  redis-node6:
+    network_mode: "service:redis-node1"
+    container_name: redis-node6
+    image: redis
+    volumes:
+      - ./redis-conf/conf6:/usr/local/etc/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+  redis-cluster-entry: #redis sever들을 cluster로 묶는 역할
+    network_mode: "service:redis-node1"
+    image: redis
+    container_name: redis-cluster
+    command: redis-cli --cluster create 127.0.0.1:6379 127.0.0.1:6380 127.0.0.1:6381 127.0.0.1:6382 127.0.0.1:6383 127.0.0.1:6384 --cluster-replicas 1 --cluster-yes
+    depends_on:
+      - redis-node1
+      - redis-node2
+      - redis-node3
+      - redis-node4
+      - redis-node5
+      - redis-node6

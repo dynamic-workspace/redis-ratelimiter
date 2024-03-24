@@ -47,6 +47,7 @@ class BucketService(
     ): T {
         try {
             val bucket = bucketMap[rateLimiterType] ?: throw IllegalArgumentException("Not found bucket: $rateLimiterType")
+            println(bucket.availableTokens)
 
             return if (bucket.tryConsume(1)) {
                 action()
